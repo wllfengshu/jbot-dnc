@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wllfengshu.dnc.dao.TUserDao">
+
+	<resultMap type="com.wllfengshu.dnc.entity.TUser" id="resultMap">
+		<result property="id" column="id"></result>
+		<result property="username" column="username"></result>
+		<result property="password" column="password"></result>
+		<result property="createTime" column="create_time"></result>
+		<result property="updateTime" column="update_time"></result>
+		<result property="deleteTime" column="delete_time"></result>
+		<result property="isDelete" column="is_delete"></result>
+	</resultMap>
+
+	<sql id="selectTUsersWhere">
+		<if test="id!=null and id!=''">
+			AND id = #{id}
+		</if>
+		<if test="username!=null and username!=''">
+			AND username = #{username}
+		</if>
+		<if test="password!=null and password!=''">
+			AND password = #{password}
+		</if>
+		<if test="create_time!=null and create_time!=''">
+			AND create_time = #{createTime}
+		</if>
+		<if test="update_time!=null and update_time!=''">
+			AND update_time = #{updateTime}
+		</if>
+		<if test="delete_time!=null and delete_time!=''">
+			AND delete_time = #{deleteTime}
+		</if>
+		<if test="is_delete!=null and is_delete!=''">
+			AND is_delete = #{isDelete}
+		</if>
+	</sql>
+
+	<select id="selectTUsers" parameterType="java.util.Map" resultMap="resultMap">
+		SELECT * 
+		FROM t_user 
+		<where>
+			 1=1 
+			<include refid="selectTUsersWhere"/>
+			limit ${pageNo * pageSize} , ${pageSize}
+			</where>
+	</select>
+
+	<select id="selectTUsersCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(1) 
+		FROM t_user 
+		<where>
+			 1=1 
+			<include refid="selectTUsersWhere"/>
+			</where>
+	</select>
+
+</mapper>
